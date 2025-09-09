@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/benjaminbatte/StoreApi/StoreApi/ProductCatalogApi/ProductCatalogApi.csproj": {}
+    "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj": {}
   },
   "projects": {
-    "/Users/benjaminbatte/StoreApi/StoreApi/ProductCatalogApi/ProductCatalogApi.csproj": {
+    "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/benjaminbatte/StoreApi/StoreApi/ProductCatalogApi/ProductCatalogApi.csproj",
+        "projectUniqueName": "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj",
         "projectName": "ProductCatalogApi",
-        "projectPath": "/Users/benjaminbatte/StoreApi/StoreApi/ProductCatalogApi/ProductCatalogApi.csproj",
-        "packagesPath": "/Users/benjaminbatte/.nuget/packages/",
-        "outputPath": "/Users/benjaminbatte/StoreApi/StoreApi/ProductCatalogApi/obj/",
+        "projectPath": "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj",
+        "packagesPath": "C:\\Users\\16412\\.nuget\\packages\\",
+        "outputPath": "e:\\product_catalog_dotnet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/benjaminbatte/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\16412\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -61,7 +60,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[9.0.3, )"
+              "version": "[9.0.4, )"
             }
           },
           "imports": [
@@ -83,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -39,20 +39,6 @@ namespace ProductCatalogApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Electronic Items",
-                            Name = "Electronics"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Fashion Items",
-                            Name = "Clothing"
-                        });
                 });
 
             modelBuilder.Entity("ProductCatalogApi.Models.Product", b =>
@@ -81,24 +67,6 @@ namespace ProductCatalogApi.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "High performance laptop",
-                            Name = "Laptop",
-                            Price = 999.99m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            Description = "Cotton t-shirt",
-                            Name = "T-Shirt",
-                            Price = 19.99m
-                        });
                 });
 
             modelBuilder.Entity("ProductCatalogApi.Models.Product", b =>

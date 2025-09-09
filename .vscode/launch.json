@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+
+    {
+      "name": "C#: ProductCatalogApi Debug",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/ProductCatalogApi/bin/Debug/net8.0/ProductCatalogApi.dll",
+      "cwd": "${workspaceFolder}/ProductCatalogApi",
+      "console": "integratedTerminal",
+      "stopAtEntry": false
+    }
+  ]
+}

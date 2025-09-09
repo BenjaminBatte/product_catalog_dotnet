@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProductCatalogApi</name>
+    </assembly>
+    <members>
+        <member name="T:ProductCatalogApi.Migrations.InitialCreateV2">
+            <inheritdoc />
+        </member>
+        <member name="M:ProductCatalogApi.Migrations.InitialCreateV2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProductCatalogApi.Migrations.InitialCreateV2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProductCatalogApi.Migrations.InitialCreateV2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

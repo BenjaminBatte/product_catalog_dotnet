@@ -23,7 +23,7 @@ public class ProductsController : ControllerBase
         return Ok(await _productService.GetAllProducts());
     }
 
-    // GET: api/Products/5
+    // GET: api/Products/
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
