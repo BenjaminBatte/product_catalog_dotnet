@@ -6,20 +6,20 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ---------------------- Services ----------------------
 
-
-// Register the DbContext with PostgreSQL
+// DbContext (PostgreSQL)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Controllers
 builder.Services.AddControllers();
 
-// Register app services - FIXED: Use interfaces if you have them, otherwise keep as is
-// If you have interfaces, use: builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<CategoryService>();
+// Application Services
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-// Configure Swagger/OpenAPI with enhanced configuration
+// Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Product Catalog API",
         Version = "v1",
-        Description = "API for managing products and categories in a catalog",
+        Description = "API for managing products and categories",
         Contact = new OpenApiContact
         {
             Name = "API Support",
@@ -35,46 +35,33 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Enable XML comments for better documentation (optional but recommended)
-    try
+    // Optional: XML Comments for better Swagger docs
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
     {
-        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         c.IncludeXmlComments(xmlPath);
-    }
-    catch
-    {
-        // XML file not found, continue without it
-        Console.WriteLine("XML documentation file not found. Continuing without XML comments.");
     }
 });
 
+// ---------------------- App Pipeline ----------------------
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Swagger UI
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product Catalog API V1");
-        c.RoutePrefix = "swagger"; // Access at /swagger
-        c.DocumentTitle = "Product Catalog API Documentation";
-    });
-}
-else
-{
-    // You can also enable Swagger in production if desired
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product Catalog API V1");
-        c.RoutePrefix = "api-docs"; // Different path for production
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product Catalog API v1");
+    c.RoutePrefix = app.Environment.IsDevelopment() ? "swagger" : "api-docs";
+    c.DocumentTitle = "Product Catalog API Documentation";
+});
 
+// Middleware
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+// Map controllers
 app.MapControllers();
 
 app.Run();

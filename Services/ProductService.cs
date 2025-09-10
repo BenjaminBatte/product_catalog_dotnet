@@ -6,11 +6,10 @@ using ProductCatalogApi.Models;
 namespace ProductCatalogApi.Services;
 
 // Service layer handles business logic
-public class ProductService
+public class ProductService : IProductService
 {
     private readonly AppDbContext _context;
 
-    // Inject the DbContext via constructor
     public ProductService(AppDbContext context)
     {
         _context = context;
@@ -93,5 +92,136 @@ public class ProductService
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
         return true;
+    }
+    public async Task<IEnumerable<ProductDto>> GetProductsFilteredByPrice(decimal minPrice)
+    {
+        return await _context.Products
+            .Where(p => p.Price >= minPrice)
+            .Include(p => p.Category)
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<ProductDto>> GetTopProductsByPrice(int n)
+    {
+        return await _context.Products
+            .OrderByDescending(p => p.Price)
+            .Take(n)
+            .Include(p => p.Category)
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<ProductDto>> GetProductsByCategory(int categoryId)
+    {
+        return await _context.Products
+            .Where(p => p.CategoryId == categoryId)
+            .Include(p => p.Category)
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<ProductDto>> SearchProducts(string keyword)
+    {
+        keyword = keyword.ToLower();
+        return await _context.Products
+            .Where(p => p.Name.ToLower().Contains(keyword))
+            .Include(p => p.Category)
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+            })
+            .ToListAsync();
+    }
+
+    public async Task<decimal> GetAveragePrice()
+    {
+        if (!await _context.Products.AnyAsync())
+            return 0;
+
+        return await _context.Products.AverageAsync(p => p.Price);
+    }
+
+    public async Task<ProductDto?> GetCheapestProduct()
+    {
+        return await _context.Products
+            .OrderBy(p => p.Price)
+            .Include(p => p.Category)
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+            })
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<ProductDto?> GetMostExpensiveProduct()
+    {
+        return await _context.Products
+            .OrderByDescending(p => p.Price)
+            .Include(p => p.Category)
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+            })
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<CategoryWithProductsDto>> GetProductsGroupedByCategory()
+    {
+        return await _context.Categories
+            .Select(c => new CategoryWithProductsDto
+            {
+                CategoryId = c.Id,
+                CategoryName = c.Name,
+                Products = c.Products.Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    CategoryId = p.CategoryId,
+                    CategoryName = c.Name
+                }).ToList()
+            })
+            .ToListAsync();
     }
 }

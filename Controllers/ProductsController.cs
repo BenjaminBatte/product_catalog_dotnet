@@ -8,10 +8,10 @@ namespace ProductCatalogApi.Controllers;
 [ApiController]
 public class ProductsController : ControllerBase
 {
-    private readonly ProductService _productService;
+    private readonly IProductService _productService;
 
     // Inject the ProductService via constructor
-    public ProductsController(ProductService productService)
+    public ProductsController(IProductService productService)
     {
         _productService = productService;
     }
@@ -25,6 +25,8 @@ public class ProductsController : ControllerBase
 
     // GET: api/Products/
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
         var product = await _productService.GetProductById(id);
@@ -75,4 +77,59 @@ public class ProductsController : ControllerBase
 
         return NoContent();
     }
+    // GET: api/Products/filter?minPrice=50
+    [HttpGet("filter")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetFilteredProducts([FromQuery] decimal minPrice)
+    {
+        var products = await _productService.GetProductsFilteredByPrice(minPrice);
+        return Ok(products);
+    }
+    [HttpGet("top")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetTopProducts([FromQuery] int n = 5)
+    {
+        return Ok(await _productService.GetTopProductsByPrice(n));
+    }
+
+    // GET: api/Products/by-category/2
+    [HttpGet("by-category/{categoryId}")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(int categoryId)
+    {
+        return Ok(await _productService.GetProductsByCategory(categoryId));
+    }
+
+    // GET: api/Products/search?keyword=phone
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> SearchProducts([FromQuery] string keyword)
+    {
+        return Ok(await _productService.SearchProducts(keyword));
+    }
+
+    // GET: api/Products/average-price
+    [HttpGet("average-price")]
+    public async Task<ActionResult<decimal>> GetAveragePrice()
+    {
+        return Ok(await _productService.GetAveragePrice());
+    }
+
+    // GET: api/Products/cheapest
+    [HttpGet("cheapest")]
+    public async Task<ActionResult<ProductDto?>> GetCheapestProduct()
+    {
+        return Ok(await _productService.GetCheapestProduct());
+    }
+
+    // GET: api/Products/most-expensive
+    [HttpGet("most-expensive")]
+    public async Task<ActionResult<ProductDto?>> GetMostExpensiveProduct()
+    {
+        return Ok(await _productService.GetMostExpensiveProduct());
+    }
+
+    // GET: api/Products/grouped-by-category
+    [HttpGet("grouped-by-category")]
+    public async Task<ActionResult<IEnumerable<CategoryWithProductsDto>>> GetProductsGroupedByCategory()
+    {
+        return Ok(await _productService.GetProductsGroupedByCategory());
+    }
+
 }

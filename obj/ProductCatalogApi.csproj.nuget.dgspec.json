@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj": {}
+    "E:\\product_catalog_dotnet\\ProductCatalogApi.csproj": {}
   },
   "projects": {
-    "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj": {
+    "E:\\product_catalog_dotnet\\ProductCatalogApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj",
+        "projectUniqueName": "E:\\product_catalog_dotnet\\ProductCatalogApi.csproj",
         "projectName": "ProductCatalogApi",
-        "projectPath": "e:\\product_catalog_dotnet\\ProductCatalogApi.csproj",
+        "projectPath": "E:\\product_catalog_dotnet\\ProductCatalogApi.csproj",
         "packagesPath": "C:\\Users\\16412\\.nuget\\packages\\",
-        "outputPath": "e:\\product_catalog_dotnet\\obj\\",
+        "outputPath": "E:\\product_catalog_dotnet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\16412\\AppData\\Roaming\\NuGet\\NuGet.Config"

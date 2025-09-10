@@ -8,13 +8,12 @@ namespace ProductCatalogApi.Controllers;
 [ApiController]
 public class CategoriesController : ControllerBase
 {
-    private readonly CategoryService _categoryService;
+    private readonly ICategoryService _categoryService;
 
-    public CategoriesController(CategoryService categoryService)
+    public CategoriesController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
     }
-
     // GET: api/Categories
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
@@ -74,4 +73,33 @@ public class CategoriesController : ControllerBase
 
         return NoContent();
     }
+
+    // GET: api/Categories/with-counts
+    [HttpGet("with-counts")]
+    public async Task<ActionResult<IEnumerable<CategoryWithCountDto>>> GetCategoriesWithCounts()
+    {
+        return Ok(await _categoryService.GetCategoriesWithProductCounts());
+    }
+
+    // GET: api/Categories/average-prices
+    [HttpGet("average-prices")]
+    public async Task<ActionResult<IEnumerable<CategoryWithAveragePriceDto>>> GetCategoriesWithAveragePrices()
+    {
+        return Ok(await _categoryService.GetCategoriesWithAveragePrices());
+    }
+
+    // GET: api/Categories/with-expensive-products?minPrice=100
+    [HttpGet("with-expensive-products")]
+    public async Task<ActionResult<IEnumerable<CategoryWithFlagDto>>> GetCategoriesWithExpensiveProducts([FromQuery] decimal minPrice)
+    {
+        return Ok(await _categoryService.GetCategoriesWithExpensiveProducts(minPrice));
+    }
+
+    // GET: api/Categories/top?n=3
+    [HttpGet("top")]
+    public async Task<ActionResult<IEnumerable<CategoryWithCountDto>>> GetTopCategories([FromQuery] int n = 5)
+    {
+        return Ok(await _categoryService.GetTopCategories(n));
+    }
+
 }
